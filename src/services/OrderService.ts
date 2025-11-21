@@ -1,5 +1,6 @@
 import { OrderRepository } from '../repositories';
 import { DexRouterService } from './dex';
+import { wsManager } from './WebSocketManager';
 import { Order, OrderRequest, OrderStatus, TradingPair } from '../types';
 import { validateTradingPair } from '../utils';
 import { config } from '../config';
@@ -55,6 +56,11 @@ export class OrderService {
         OrderStatus.ROUTING,
         'Fetching quotes from DEXs'
       );
+      wsManager.broadcastOrderUpdate(orderId, {
+        orderId,
+        status: OrderStatus.ROUTING,
+        message: 'Fetching quotes from DEXs',
+      });
 
       // Get best quote from DEX router
       const routingResult = await this.dexRouter.getBestQuote({
@@ -70,6 +76,13 @@ export class OrderService {
         OrderStatus.BUILDING,
         `Building transaction on ${routingResult.selectedDex}`
       );
+      wsManager.broadcastOrderUpdate(orderId, {
+        orderId,
+        status: OrderStatus.BUILDING,
+        message: `Building transaction on ${routingResult.selectedDex}`,
+        dex: routingResult.selectedDex,
+        price: routingResult.bestQuote.price,
+      });
 
       // Execute the swap
       const executionResult = await this.dexRouter.executeSwap(
@@ -87,6 +100,12 @@ export class OrderService {
           error: executionResult.error || 'Execution failed',
           dexUsed: executionResult.dex,
         });
+        wsManager.broadcastOrderUpdate(orderId, {
+          orderId,
+          status: OrderStatus.FAILED,
+          error: executionResult.error || 'Execution failed',
+          dex: executionResult.dex,
+        });
 
         const failedOrder = await this.orderRepository.findById(orderId);
         if (!failedOrder) throw new Error('Order not found after failure');
@@ -99,12 +118,25 @@ export class OrderService {
         OrderStatus.SUBMITTED,
         'Transaction submitted to blockchain'
       );
+      wsManager.broadcastOrderUpdate(orderId, {
+        orderId,
+        status: OrderStatus.SUBMITTED,
+        message: 'Transaction submitted to blockchain',
+      });
 
       // Update status to CONFIRMED with execution details
       await this.orderRepository.updateExecutionDetails(orderId, {
         status: OrderStatus.CONFIRMED,
         dexUsed: executionResult.dex,
         executionPrice: executionResult.executedPrice,
+        txHash: executionResult.txHash,
+      });
+      wsManager.broadcastOrderUpdate(orderId, {
+        orderId,
+        status: OrderStatus.CONFIRMED,
+        message: 'Order executed successfully',
+        dex: executionResult.dex,
+        price: executionResult.executedPrice,
         txHash: executionResult.txHash,
       });
 
@@ -119,6 +151,11 @@ export class OrderService {
       console.error(`❌ Order ${orderId} processing error:`, errorMessage);
 
       await this.orderRepository.updateExecutionDetails(orderId, {
+        status: OrderStatus.FAILED,
+        error: errorMessage,
+      });
+      wsManager.broadcastOrderUpdate(orderId, {
+        orderId,
         status: OrderStatus.FAILED,
         error: errorMessage,
       });

@@ -3,6 +3,8 @@ import cors from '@fastify/cors';
 import websocket from '@fastify/websocket';
 import mongoose from 'mongoose';
 import { config } from './config';
+import { orderRoutes } from './router';
+import { getQueueMetrics } from './queue';
 
 export async function buildApp(): Promise<FastifyInstance> {
   const app = Fastify({
@@ -25,8 +27,12 @@ export async function buildApp(): Promise<FastifyInstance> {
 
   await app.register(websocket);
 
+  // Register order routes
+  await app.register(orderRoutes);
+
   app.get('/health', async (_request: FastifyRequest, reply: FastifyReply) => {
     const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+    const queueMetrics = await getQueueMetrics();
 
     return reply.status(200).send({
       status: 'healthy',
@@ -35,6 +41,7 @@ export async function buildApp(): Promise<FastifyInstance> {
       uptime: process.uptime(),
       database: dbStatus,
       supportedPairs: config.trading.supportedPairs,
+      queue: queueMetrics,
     });
   });
 
