@@ -12,7 +12,12 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "setup:db": "tsx scripts/setup-db.ts"
+    "setup:db": "tsx scripts/setup-db.ts",
+    "test:single": "tsx scripts/test-single-order.ts",
+    "test:concurrent": "tsx scripts/test-concurrent-orders.ts",
+    "test:stress": "tsx scripts/test-stress.ts",
+    "test:all-pairs": "tsx scripts/test-all-pairs.ts",
+    "demo": "tsx scripts/demo.ts"
   },
   "keywords": [],
   "author": "",
