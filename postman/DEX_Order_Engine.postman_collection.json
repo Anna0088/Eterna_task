@@ -1,0 +1,314 @@
+{
+  "info": {
+    "name": "DEX Order Execution Engine",
+    "description": "Complete API collection for the DEX Order Execution Engine with BTC/USDT, ETH/USDT, and BTC/ETH trading pairs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/health",
+          "host": ["{{BASE_URL}}"],
+          "path": ["health"]
+        },
+        "description": "Check API health status and queue metrics"
+      },
+      "response": [
+        {
+          "name": "Success",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/health",
+              "host": ["{{BASE_URL}}"],
+              "path": ["health"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"ok\",\n  \"timestamp\": \"2025-01-20T10:30:00.000Z\",\n  \"uptime\": 3600,\n  \"database\": \"connected\",\n  \"redis\": \"connected\",\n  \"queue\": {\n    \"waiting\": 5,\n    \"active\": 3,\n    \"completed\": 120,\n    \"failed\": 2,\n    \"delayed\": 0,\n    \"total\": 130\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Execute Order - BTC/USDT",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/api/orders/execute",
+          "host": ["{{BASE_URL}}"],
+          "path": ["api", "orders", "execute"]
+        },
+        "description": "Execute a BTC/USDT market order for 0.5 BTC"
+      },
+      "response": [
+        {
+          "name": "Success",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders/execute",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders", "execute"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"orderId\": \"65abc123def456789\",\n  \"status\": \"PENDING\",\n  \"message\": \"Order received and queued for processing\",\n  \"websocket\": \"/api/orders/65abc123def456789/ws\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Execute Order - ETH/USDT",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"ETH/USDT\",\n  \"amount\": 10,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/api/orders/execute",
+          "host": ["{{BASE_URL}}"],
+          "path": ["api", "orders", "execute"]
+        },
+        "description": "Execute an ETH/USDT market order for 10 ETH"
+      },
+      "response": []
+    },
+    {
+      "name": "Execute Order - BTC/ETH",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/ETH\",\n  \"amount\": 0.25,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/api/orders/execute",
+          "host": ["{{BASE_URL}}"],
+          "path": ["api", "orders", "execute"]
+        },
+        "description": "Execute a BTC/ETH market order for 0.25 BTC"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Order by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/orders/:orderId",
+          "host": ["{{BASE_URL}}"],
+          "path": ["api", "orders", ":orderId"],
+          "variable": [
+            {
+              "key": "orderId",
+              "value": "65abc123def456789",
+              "description": "Order ID returned from execute endpoint"
+            }
+          ]
+        },
+        "description": "Retrieve order details by order ID"
+      },
+      "response": [
+        {
+          "name": "Success - Confirmed",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders/65abc123def456789",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders", "65abc123def456789"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"_id\": \"65abc123def456789\",\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n  \"status\": \"CONFIRMED\",\n  \"dexUsed\": \"Meteora\",\n  \"executedPrice\": 42856.50,\n  \"receivedAmount\": 21385.50,\n  \"fee\": 42.77,\n  \"txHash\": \"0x1234567890abcdef...\",\n  \"statusHistory\": [\n    {\n      \"status\": \"PENDING\",\n      \"timestamp\": \"2025-01-20T10:30:00.000Z\"\n    },\n    {\n      \"status\": \"ROUTING\",\n      \"timestamp\": \"2025-01-20T10:30:01.000Z\",\n      \"metadata\": {\n        \"message\": \"Fetching quotes from DEXs\"\n      }\n    },\n    {\n      \"status\": \"BUILDING\",\n      \"timestamp\": \"2025-01-20T10:30:01.500Z\",\n      \"metadata\": {\n        \"dex\": \"Meteora\",\n        \"reason\": \"Better output by 1.2%\"\n      }\n    },\n    {\n      \"status\": \"SUBMITTED\",\n      \"timestamp\": \"2025-01-20T10:30:03.000Z\",\n      \"metadata\": {\n        \"txHash\": \"0x1234567890abcdef...\"\n      }\n    },\n    {\n      \"status\": \"CONFIRMED\",\n      \"timestamp\": \"2025-01-20T10:30:05.000Z\"\n    }\n  ],\n  \"createdAt\": \"2025-01-20T10:30:00.000Z\",\n  \"updatedAt\": \"2025-01-20T10:30:05.000Z\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "List All Orders",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/orders",
+          "host": ["{{BASE_URL}}"],
+          "path": ["api", "orders"]
+        },
+        "description": "List all orders with optional filters"
+      },
+      "response": []
+    },
+    {
+      "name": "List Orders - Filter by Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/orders?status=CONFIRMED&limit=10&page=1",
+          "host": ["{{BASE_URL}}"],
+          "path": ["api", "orders"],
+          "query": [
+            {
+              "key": "status",
+              "value": "CONFIRMED",
+              "description": "Filter by status: PENDING, ROUTING, BUILDING, SUBMITTED, CONFIRMED, FAILED"
+            },
+            {
+              "key": "limit",
+              "value": "10",
+              "description": "Number of orders per page"
+            },
+            {
+              "key": "page",
+              "value": "1",
+              "description": "Page number"
+            }
+          ]
+        },
+        "description": "List orders filtered by status with pagination"
+      },
+      "response": []
+    },
+    {
+      "name": "List Orders - Filter by Pair",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/api/orders?pair=BTC/USDT&limit=20&page=1",
+          "host": ["{{BASE_URL}}"],
+          "path": ["api", "orders"],
+          "query": [
+            {
+              "key": "pair",
+              "value": "BTC/USDT",
+              "description": "Filter by trading pair: BTC/USDT, ETH/USDT, BTC/ETH"
+            },
+            {
+              "key": "limit",
+              "value": "20"
+            },
+            {
+              "key": "page",
+              "value": "1"
+            }
+          ]
+        },
+        "description": "List orders filtered by trading pair"
+      },
+      "response": []
+    },
+    {
+      "name": "WebSocket - Order Status Updates",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "ws://{{WS_URL}}/api/orders/:orderId/ws",
+          "protocol": "ws",
+          "host": ["{{WS_URL}}"],
+          "path": ["api", "orders", ":orderId", "ws"],
+          "variable": [
+            {
+              "key": "orderId",
+              "value": "65abc123def456789",
+              "description": "Order ID to monitor"
+            }
+          ]
+        },
+        "description": "WebSocket connection for real-time order status updates. Auto-subscribes to the specified order.\n\nExample messages received:\n\n1. Connection confirmation:\n{\n  \"type\": \"connected\",\n  \"clientId\": \"client-abc123\",\n  \"subscribedTo\": \"65abc123def456789\"\n}\n\n2. Status updates:\n{\n  \"type\": \"status_update\",\n  \"orderId\": \"65abc123def456789\",\n  \"status\": \"ROUTING\",\n  \"timestamp\": \"2025-01-20T10:30:01.000Z\",\n  \"metadata\": {\n    \"message\": \"Fetching quotes from DEXs\"\n  }\n}\n\n3. Error:\n{\n  \"type\": \"error\",\n  \"message\": \"Order not found\"\n}"
+      },
+      "response": []
+    },
+    {
+      "name": "WebSocket - General Stream",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "ws://{{WS_URL}}/api/orders/ws",
+          "protocol": "ws",
+          "host": ["{{WS_URL}}"],
+          "path": ["api", "orders", "ws"]
+        },
+        "description": "WebSocket connection for general order stream. Subscribe to specific orders by sending:\n\n{\n  \"action\": \"subscribe\",\n  \"orderId\": \"65abc123def456789\"\n}\n\nUnsubscribe:\n{\n  \"action\": \"unsubscribe\",\n  \"orderId\": \"65abc123def456789\"\n}"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "WS_URL",
+      "value": "localhost:3000",
+      "type": "string"
+    }
+  ]
+}
