@@ -1,0 +1,33 @@
+import { TradingPair } from '../types';
+
+// Base prices for trading pairs (realistic market prices)
+export const BASE_PRICES: Record<TradingPair, number> = {
+  [TradingPair.BTC_USDT]: 43000, // BTC price in USDT
+  [TradingPair.ETH_USDT]: 2300, // ETH price in USDT
+  [TradingPair.BTC_ETH]: 18.7, // BTC price in ETH (43000 / 2300)
+};
+
+// Calculate output amount based on price
+export const calculateOutputAmount = (
+  amountIn: number,
+  price: number,
+  fee: number
+): number => {
+  const amountAfterFee = amountIn * (1 - fee);
+  return amountAfterFee * price;
+};
+
+// Calculate effective price after fees
+export const calculateEffectivePrice = (price: number, fee: number): number => {
+  return price * (1 - fee);
+};
+
+// Get base price for a trading pair
+export const getBasePrice = (pair: TradingPair): number => {
+  return BASE_PRICES[pair];
+};
+
+// Calculate slippage impact
+export const applySlippage = (amount: number, slippage: number): number => {
+  return amount * (1 - slippage);
+};
