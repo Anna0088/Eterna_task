@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import { TradingPair } from '../types';
 
 dotenv.config();
 
@@ -25,5 +26,9 @@ export const config = {
     defaultSlippage: parseFloat(process.env.DEFAULT_SLIPPAGE || '0.01'),
     priceVariationMin: parseFloat(process.env.PRICE_VARIATION_MIN || '0.02'),
     priceVariationMax: parseFloat(process.env.PRICE_VARIATION_MAX || '0.05'),
+    mockMode: process.env.MOCK_MODE !== 'false',
+    supportedPairs: [TradingPair.BTC_USDT, TradingPair.ETH_USDT, TradingPair.BTC_ETH],
   },
 };
+
+export * from './database';

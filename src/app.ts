@@ -1,6 +1,7 @@
 import Fastify, { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import cors from '@fastify/cors';
 import websocket from '@fastify/websocket';
+import mongoose from 'mongoose';
 import { config } from './config';
 
 export async function buildApp(): Promise<FastifyInstance> {
@@ -25,11 +26,15 @@ export async function buildApp(): Promise<FastifyInstance> {
   await app.register(websocket);
 
   app.get('/health', async (_request: FastifyRequest, reply: FastifyReply) => {
+    const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+
     return reply.status(200).send({
       status: 'healthy',
       timestamp: new Date().toISOString(),
       environment: config.env,
       uptime: process.uptime(),
+      database: dbStatus,
+      supportedPairs: config.trading.supportedPairs,
     });
   });
 
@@ -37,7 +42,7 @@ export async function buildApp(): Promise<FastifyInstance> {
     app.log.error(error);
     reply.status(500).send({
       error: 'Internal Server Error',
-      message: error.message,
+      message: error instanceof Error ? error.message : 'Unknown error',
     });
   });
 
