@@ -2,6 +2,7 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import { OrderService } from '../services/OrderService';
 import { addOrderToQueue } from '../queue';
 import { OrderRequest, OrderType, TradingPair } from '../types';
+import { ValidationError, NotFoundError, QueueError, isAppError, formatErrorResponse } from '../utils/errors';
 
 export class OrderController {
   private orderService: OrderService;
@@ -23,34 +24,25 @@ export class OrderController {
 
       // Validate request body
       if (!type || !pair || !amount) {
-        return reply.status(400).send({
-          error: 'Validation Error',
-          message: 'Missing required fields: type, pair, amount',
-        });
+        throw new ValidationError('Missing required fields: type, pair, amount');
       }
 
       // Validate order type
       if (!Object.values(OrderType).includes(type)) {
-        return reply.status(400).send({
-          error: 'Validation Error',
-          message: `Invalid order type. Supported types: ${Object.values(OrderType).join(', ')}`,
-        });
+        throw new ValidationError(
+          `Invalid order type. Supported types: ${Object.values(OrderType).join(', ')}`,
+          'type'
+        );
       }
 
       // Validate amount
       if (amount <= 0) {
-        return reply.status(400).send({
-          error: 'Validation Error',
-          message: 'Amount must be greater than 0',
-        });
+        throw new ValidationError('Amount must be greater than 0', 'amount');
       }
 
       // Validate slippage if provided
       if (slippage !== undefined && (slippage < 0 || slippage > 1)) {
-        return reply.status(400).send({
-          error: 'Validation Error',
-          message: 'Slippage must be between 0 and 1',
-        });
+        throw new ValidationError('Slippage must be between 0 and 1', 'slippage');
       }
 
       // Create order
@@ -62,7 +54,13 @@ export class OrderController {
       });
 
       // Add to queue for processing
-      await addOrderToQueue(order);
+      try {
+        await addOrderToQueue(order);
+      } catch (queueError) {
+        // If queue fails, log but still return order (it's created in DB)
+        request.log.error(queueError, 'Failed to add order to queue');
+        throw new QueueError('Failed to queue order for processing');
+      }
 
       // Return order ID immediately
       return reply.status(201).send({
@@ -80,18 +78,13 @@ export class OrderController {
         },
       });
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      request.log.error(error);
 
-      // Check if it's a validation error
-      if (errorMessage.includes('Invalid trading pair')) {
-        return reply.status(400).send({
-          error: 'Validation Error',
-          message: errorMessage,
-        });
+      if (isAppError(error)) {
+        return reply.status(error.statusCode).send(formatErrorResponse(error));
       }
 
-      // Internal server error
-      request.log.error(error);
+      // Unknown error
       return reply.status(500).send({
         error: 'Internal Server Error',
         message: 'Failed to create order',
@@ -113,10 +106,7 @@ export class OrderController {
       const order = await this.orderService.getOrder(orderId);
 
       if (!order) {
-        return reply.status(404).send({
-          error: 'Not Found',
-          message: `Order ${orderId} not found`,
-        });
+        throw new NotFoundError('Order', orderId);
       }
 
       return reply.send({
@@ -124,6 +114,11 @@ export class OrderController {
       });
     } catch (error) {
       request.log.error(error);
+
+      if (isAppError(error)) {
+        return reply.status(error.statusCode).send(formatErrorResponse(error));
+      }
+
       return reply.status(500).send({
         error: 'Internal Server Error',
         message: 'Failed to retrieve order',
@@ -169,6 +164,11 @@ export class OrderController {
       });
     } catch (error) {
       request.log.error(error);
+
+      if (isAppError(error)) {
+        return reply.status(error.statusCode).send(formatErrorResponse(error));
+      }
+
       return reply.status(500).send({
         error: 'Internal Server Error',
         message: 'Failed to retrieve orders',
