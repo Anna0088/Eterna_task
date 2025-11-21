@@ -6,6 +6,7 @@ export interface AppConfig {
   logging: LoggingConfig;
   orderProcessing: OrderProcessingConfig;
   trading: TradingConfig;
+  solana?: SolanaConfig;
 }
 
 export interface MongoDBConfig {
@@ -34,4 +35,16 @@ export interface TradingConfig {
   priceVariationMax: number;
   mockMode: boolean;
   supportedPairs: string[];
+  minSolBalance?: number;
+  computeUnitPrice?: number;
+  computeUnitLimit?: number;
+}
+
+export interface SolanaConfig {
+  rpcUrl: string;
+  rpcBackupUrl?: string;
+  commitment: string;
+  confirmTimeout: number;
+  maxRetries: number;
+  privateKey?: string;
 }

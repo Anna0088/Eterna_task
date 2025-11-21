@@ -98,7 +98,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+          "raw": "{\n  \"type\": \"market\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
         },
         "url": {
           "raw": "{{BASE_URL}}/api/orders/execute",
@@ -120,7 +120,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+              "raw": "{\n  \"type\": \"market\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
             },
             "url": {
               "raw": "{{BASE_URL}}/api/orders/execute",
@@ -213,7 +213,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": -0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+              "raw": "{\n  \"type\": \"market\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": -0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
             },
             "url": {
               "raw": "{{BASE_URL}}/api/orders/execute",
@@ -275,7 +275,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/USDT\"\n}"
+              "raw": "{\n  \"type\": \"market\",\n  \"pair\": \"BTC/USDT\"\n}"
             },
             "url": {
               "raw": "{{BASE_URL}}/api/orders/execute",
@@ -306,7 +306,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+              "raw": "{\n  \"type\": \"market\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
             },
             "url": {
               "raw": "{{BASE_URL}}/api/orders/execute",
@@ -339,7 +339,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"ETH/USDT\",\n  \"amount\": 10,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+          "raw": "{\n  \"type\": \"market\",\n  \"pair\": \"ETH/USDT\",\n  \"amount\": 10,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
         },
         "url": {
           "raw": "{{BASE_URL}}/api/orders/execute",
@@ -361,7 +361,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"ETH/USDT\",\n  \"amount\": 10,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+              "raw": "{\n  \"type\": \"market\",\n  \"pair\": \"ETH/USDT\",\n  \"amount\": 10,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
             },
             "url": {
               "raw": "{{BASE_URL}}/api/orders/execute",
@@ -392,7 +392,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"INVALID/PAIR\",\n  \"amount\": 10,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+              "raw": "{\n  \"type\": \"market\",\n  \"pair\": \"INVALID/PAIR\",\n  \"amount\": 10,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
             },
             "url": {
               "raw": "{{BASE_URL}}/api/orders/execute",
@@ -423,7 +423,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"ETH/USDT\"\n}"
+              "raw": "{\n  \"type\": \"market\",\n  \"pair\": \"ETH/USDT\"\n}"
             },
             "url": {
               "raw": "{{BASE_URL}}/api/orders/execute",
@@ -456,7 +456,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/ETH\",\n  \"amount\": 0.25,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+          "raw": "{\n  \"type\": \"market\",\n  \"pair\": \"BTC/ETH\",\n  \"amount\": 0.25,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
         },
         "url": {
           "raw": "{{BASE_URL}}/api/orders/execute",
@@ -478,7 +478,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/ETH\",\n  \"amount\": 0.25,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+              "raw": "{\n  \"type\": \"market\",\n  \"pair\": \"BTC/ETH\",\n  \"amount\": 0.25,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
             },
             "url": {
               "raw": "{{BASE_URL}}/api/orders/execute",
@@ -509,7 +509,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"INVALID/PAIR\",\n  \"amount\": 0.25,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+              "raw": "{\n  \"type\": \"market\",\n  \"pair\": \"INVALID/PAIR\",\n  \"amount\": 0.25,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
             },
             "url": {
               "raw": "{{BASE_URL}}/api/orders/execute",
@@ -540,7 +540,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/ETH\"\n}"
+              "raw": "{\n  \"type\": \"market\",\n  \"pair\": \"BTC/ETH\"\n}"
             },
             "url": {
               "raw": "{{BASE_URL}}/api/orders/execute",
@@ -601,7 +601,7 @@
               "value": "application/json"
             }
           ],
-          "body": "{\n  \"_id\": \"65abc123def456789\",\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n  \"status\": \"CONFIRMED\",\n  \"dexUsed\": \"Meteora\",\n  \"executedPrice\": 42856.50,\n  \"receivedAmount\": 21385.50,\n  \"fee\": 42.77,\n  \"txHash\": \"0x1234567890abcdef...\",\n  \"statusHistory\": [\n    {\n      \"status\": \"PENDING\",\n      \"timestamp\": \"2025-01-20T10:30:00.000Z\"\n    },\n    {\n      \"status\": \"ROUTING\",\n      \"timestamp\": \"2025-01-20T10:30:01.000Z\",\n      \"metadata\": {\n        \"message\": \"Fetching quotes from DEXs\"\n      }\n    },\n    {\n      \"status\": \"BUILDING\",\n      \"timestamp\": \"2025-01-20T10:30:01.500Z\",\n      \"metadata\": {\n        \"dex\": \"Meteora\",\n        \"reason\": \"Better output by 1.2%\"\n      }\n    },\n    {\n      \"status\": \"SUBMITTED\",\n      \"timestamp\": \"2025-01-20T10:30:03.000Z\",\n      \"metadata\": {\n        \"txHash\": \"0x1234567890abcdef...\"\n      }\n    },\n    {\n      \"status\": \"CONFIRMED\",\n      \"timestamp\": \"2025-01-20T10:30:05.000Z\"\n    }\n  ],\n  \"createdAt\": \"2025-01-20T10:30:00.000Z\",\n  \"updatedAt\": \"2025-01-20T10:30:05.000Z\"\n}"
+          "body": "{\n  \"_id\": \"65abc123def456789\",\n  \"type\": \"market\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n  \"status\": \"CONFIRMED\",\n  \"dexUsed\": \"Meteora\",\n  \"executedPrice\": 42856.50,\n  \"receivedAmount\": 21385.50,\n  \"fee\": 42.77,\n  \"txHash\": \"0x1234567890abcdef...\",\n  \"statusHistory\": [\n    {\n      \"status\": \"PENDING\",\n      \"timestamp\": \"2025-01-20T10:30:00.000Z\"\n    },\n    {\n      \"status\": \"ROUTING\",\n      \"timestamp\": \"2025-01-20T10:30:01.000Z\",\n      \"metadata\": {\n        \"message\": \"Fetching quotes from DEXs\"\n      }\n    },\n    {\n      \"status\": \"BUILDING\",\n      \"timestamp\": \"2025-01-20T10:30:01.500Z\",\n      \"metadata\": {\n        \"dex\": \"Meteora\",\n        \"reason\": \"Better output by 1.2%\"\n      }\n    },\n    {\n      \"status\": \"SUBMITTED\",\n      \"timestamp\": \"2025-01-20T10:30:03.000Z\",\n      \"metadata\": {\n        \"txHash\": \"0x1234567890abcdef...\"\n      }\n    },\n    {\n      \"status\": \"CONFIRMED\",\n      \"timestamp\": \"2025-01-20T10:30:05.000Z\"\n    }\n  ],\n  \"createdAt\": \"2025-01-20T10:30:00.000Z\",\n  \"updatedAt\": \"2025-01-20T10:30:05.000Z\"\n}"
         },
         {
           "name": "Success - Pending",
@@ -623,7 +623,7 @@
               "value": "application/json"
             }
           ],
-          "body": "{\n  \"_id\": \"65abc123def456789\",\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n  \"status\": \"PENDING\",\n  \"statusHistory\": [\n    {\n      \"status\": \"PENDING\",\n      \"timestamp\": \"2025-01-20T10:30:00.000Z\"\n    }\n  ],\n  \"createdAt\": \"2025-01-20T10:30:00.000Z\",\n  \"updatedAt\": \"2025-01-20T10:30:00.000Z\"\n}"
+          "body": "{\n  \"_id\": \"65abc123def456789\",\n  \"type\": \"market\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n  \"status\": \"PENDING\",\n  \"statusHistory\": [\n    {\n      \"status\": \"PENDING\",\n      \"timestamp\": \"2025-01-20T10:30:00.000Z\"\n    }\n  ],\n  \"createdAt\": \"2025-01-20T10:30:00.000Z\",\n  \"updatedAt\": \"2025-01-20T10:30:00.000Z\"\n}"
         },
         {
           "name": "Success - Failed",
@@ -645,7 +645,7 @@
               "value": "application/json"
             }
           ],
-          "body": "{\n  \"_id\": \"65abc123def456789\",\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n  \"status\": \"FAILED\",\n  \"error\": \"Insufficient liquidity available on DEXs\",\n  \"statusHistory\": [\n    {\n      \"status\": \"PENDING\",\n      \"timestamp\": \"2025-01-20T10:30:00.000Z\"\n    },\n    {\n      \"status\": \"ROUTING\",\n      \"timestamp\": \"2025-01-20T10:30:01.000Z\",\n      \"metadata\": {\n        \"message\": \"Fetching quotes from DEXs\"\n      }\n    },\n    {\n      \"status\": \"FAILED\",\n      \"timestamp\": \"2025-01-20T10:30:02.000Z\",\n      \"metadata\": {\n        \"error\": \"Insufficient liquidity available on DEXs\"\n      }\n    }\n  ],\n  \"createdAt\": \"2025-01-20T10:30:00.000Z\",\n  \"updatedAt\": \"2025-01-20T10:30:02.000Z\"\n}"
+          "body": "{\n  \"_id\": \"65abc123def456789\",\n  \"type\": \"market\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n  \"status\": \"FAILED\",\n  \"error\": \"Insufficient liquidity available on DEXs\",\n  \"statusHistory\": [\n    {\n      \"status\": \"PENDING\",\n      \"timestamp\": \"2025-01-20T10:30:00.000Z\"\n    },\n    {\n      \"status\": \"ROUTING\",\n      \"timestamp\": \"2025-01-20T10:30:01.000Z\",\n      \"metadata\": {\n        \"message\": \"Fetching quotes from DEXs\"\n      }\n    },\n    {\n      \"status\": \"FAILED\",\n      \"timestamp\": \"2025-01-20T10:30:02.000Z\",\n      \"metadata\": {\n        \"error\": \"Insufficient liquidity available on DEXs\"\n      }\n    }\n  ],\n  \"createdAt\": \"2025-01-20T10:30:00.000Z\",\n  \"updatedAt\": \"2025-01-20T10:30:02.000Z\"\n}"
         },
         {
           "name": "Error - Order Not Found",
@@ -726,7 +726,7 @@
               "value": "application/json"
             }
           ],
-          "body": "{\n  \"orders\": [\n    {\n      \"_id\": \"65abc123def456789\",\n      \"type\": \"MARKET\",\n      \"pair\": \"BTC/USDT\",\n      \"amount\": 0.5,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"CONFIRMED\",\n      \"dexUsed\": \"Meteora\",\n      \"executedPrice\": 42856.50,\n      \"receivedAmount\": 21385.50,\n      \"fee\": 42.77,\n      \"txHash\": \"0x1234567890abcdef...\",\n      \"createdAt\": \"2025-01-20T10:30:00.000Z\",\n      \"updatedAt\": \"2025-01-20T10:30:05.000Z\"\n    },\n    {\n      \"_id\": \"65abc456def789012\",\n      \"type\": \"MARKET\",\n      \"pair\": \"ETH/USDT\",\n      \"amount\": 10,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"PENDING\",\n      \"createdAt\": \"2025-01-20T11:00:00.000Z\",\n      \"updatedAt\": \"2025-01-20T11:00:00.000Z\"\n    },\n    {\n      \"_id\": \"65abc789def012345\",\n      \"type\": \"MARKET\",\n      \"pair\": \"BTC/ETH\",\n      \"amount\": 0.25,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"FAILED\",\n      \"error\": \"Insufficient liquidity\",\n      \"createdAt\": \"2025-01-20T11:15:00.000Z\",\n      \"updatedAt\": \"2025-01-20T11:15:02.000Z\"\n    }\n  ],\n  \"pagination\": {\n    \"total\": 3,\n    \"page\": 1,\n    \"limit\": 10,\n    \"totalPages\": 1\n  }\n}"
+          "body": "{\n  \"orders\": [\n    {\n      \"_id\": \"65abc123def456789\",\n      \"type\": \"market\",\n      \"pair\": \"BTC/USDT\",\n      \"amount\": 0.5,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"CONFIRMED\",\n      \"dexUsed\": \"Meteora\",\n      \"executedPrice\": 42856.50,\n      \"receivedAmount\": 21385.50,\n      \"fee\": 42.77,\n      \"txHash\": \"0x1234567890abcdef...\",\n      \"createdAt\": \"2025-01-20T10:30:00.000Z\",\n      \"updatedAt\": \"2025-01-20T10:30:05.000Z\"\n    },\n    {\n      \"_id\": \"65abc456def789012\",\n      \"type\": \"market\",\n      \"pair\": \"ETH/USDT\",\n      \"amount\": 10,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"PENDING\",\n      \"createdAt\": \"2025-01-20T11:00:00.000Z\",\n      \"updatedAt\": \"2025-01-20T11:00:00.000Z\"\n    },\n    {\n      \"_id\": \"65abc789def012345\",\n      \"type\": \"market\",\n      \"pair\": \"BTC/ETH\",\n      \"amount\": 0.25,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"FAILED\",\n      \"error\": \"Insufficient liquidity\",\n      \"createdAt\": \"2025-01-20T11:15:00.000Z\",\n      \"updatedAt\": \"2025-01-20T11:15:02.000Z\"\n    }\n  ],\n  \"pagination\": {\n    \"total\": 3,\n    \"page\": 1,\n    \"limit\": 10,\n    \"totalPages\": 1\n  }\n}"
         },
         {
           "name": "Success - Empty Result",
@@ -816,7 +816,7 @@
               "value": "application/json"
             }
           ],
-          "body": "{\n  \"orders\": [\n    {\n      \"_id\": \"65abc123def456789\",\n      \"type\": \"MARKET\",\n      \"pair\": \"BTC/USDT\",\n      \"amount\": 0.5,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"CONFIRMED\",\n      \"dexUsed\": \"Meteora\",\n      \"executedPrice\": 42856.50,\n      \"receivedAmount\": 21385.50,\n      \"fee\": 42.77,\n      \"txHash\": \"0x1234567890abcdef...\",\n      \"createdAt\": \"2025-01-20T10:30:00.000Z\",\n      \"updatedAt\": \"2025-01-20T10:30:05.000Z\"\n    },\n    {\n      \"_id\": \"65abc999def111111\",\n      \"type\": \"MARKET\",\n      \"pair\": \"ETH/USDT\",\n      \"amount\": 5,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"CONFIRMED\",\n      \"dexUsed\": \"Raydium\",\n      \"executedPrice\": 2456.30,\n      \"receivedAmount\": 12281.50,\n      \"fee\": 24.56,\n      \"txHash\": \"0xabcdef1234567890...\",\n      \"createdAt\": \"2025-01-20T10:45:00.000Z\",\n      \"updatedAt\": \"2025-01-20T10:45:04.000Z\"\n    }\n  ],\n  \"pagination\": {\n    \"total\": 2,\n    \"page\": 1,\n    \"limit\": 10,\n    \"totalPages\": 1\n  }\n}"
+          "body": "{\n  \"orders\": [\n    {\n      \"_id\": \"65abc123def456789\",\n      \"type\": \"market\",\n      \"pair\": \"BTC/USDT\",\n      \"amount\": 0.5,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"CONFIRMED\",\n      \"dexUsed\": \"Meteora\",\n      \"executedPrice\": 42856.50,\n      \"receivedAmount\": 21385.50,\n      \"fee\": 42.77,\n      \"txHash\": \"0x1234567890abcdef...\",\n      \"createdAt\": \"2025-01-20T10:30:00.000Z\",\n      \"updatedAt\": \"2025-01-20T10:30:05.000Z\"\n    },\n    {\n      \"_id\": \"65abc999def111111\",\n      \"type\": \"market\",\n      \"pair\": \"ETH/USDT\",\n      \"amount\": 5,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"CONFIRMED\",\n      \"dexUsed\": \"Raydium\",\n      \"executedPrice\": 2456.30,\n      \"receivedAmount\": 12281.50,\n      \"fee\": 24.56,\n      \"txHash\": \"0xabcdef1234567890...\",\n      \"createdAt\": \"2025-01-20T10:45:00.000Z\",\n      \"updatedAt\": \"2025-01-20T10:45:04.000Z\"\n    }\n  ],\n  \"pagination\": {\n    \"total\": 2,\n    \"page\": 1,\n    \"limit\": 10,\n    \"totalPages\": 1\n  }\n}"
         },
         {
           "name": "Error - Invalid Status",
@@ -954,7 +954,7 @@
               "value": "application/json"
             }
           ],
-          "body": "{\n  \"orders\": [\n    {\n      \"_id\": \"65abc123def456789\",\n      \"type\": \"MARKET\",\n      \"pair\": \"BTC/USDT\",\n      \"amount\": 0.5,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"CONFIRMED\",\n      \"dexUsed\": \"Meteora\",\n      \"executedPrice\": 42856.50,\n      \"receivedAmount\": 21385.50,\n      \"fee\": 42.77,\n      \"txHash\": \"0x1234567890abcdef...\",\n      \"createdAt\": \"2025-01-20T10:30:00.000Z\",\n      \"updatedAt\": \"2025-01-20T10:30:05.000Z\"\n    },\n    {\n      \"_id\": \"65abc222def333333\",\n      \"type\": \"MARKET\",\n      \"pair\": \"BTC/USDT\",\n      \"amount\": 1.0,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"PENDING\",\n      \"createdAt\": \"2025-01-20T12:00:00.000Z\",\n      \"updatedAt\": \"2025-01-20T12:00:00.000Z\"\n    }\n  ],\n  \"pagination\": {\n    \"total\": 2,\n    \"page\": 1,\n    \"limit\": 20,\n    \"totalPages\": 1\n  }\n}"
+          "body": "{\n  \"orders\": [\n    {\n      \"_id\": \"65abc123def456789\",\n      \"type\": \"market\",\n      \"pair\": \"BTC/USDT\",\n      \"amount\": 0.5,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"CONFIRMED\",\n      \"dexUsed\": \"Meteora\",\n      \"executedPrice\": 42856.50,\n      \"receivedAmount\": 21385.50,\n      \"fee\": 42.77,\n      \"txHash\": \"0x1234567890abcdef...\",\n      \"createdAt\": \"2025-01-20T10:30:00.000Z\",\n      \"updatedAt\": \"2025-01-20T10:30:05.000Z\"\n    },\n    {\n      \"_id\": \"65abc222def333333\",\n      \"type\": \"market\",\n      \"pair\": \"BTC/USDT\",\n      \"amount\": 1.0,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"PENDING\",\n      \"createdAt\": \"2025-01-20T12:00:00.000Z\",\n      \"updatedAt\": \"2025-01-20T12:00:00.000Z\"\n    }\n  ],\n  \"pagination\": {\n    \"total\": 2,\n    \"page\": 1,\n    \"limit\": 20,\n    \"totalPages\": 1\n  }\n}"
         },
         {
           "name": "Error - Invalid Pair",

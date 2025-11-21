@@ -16,11 +16,14 @@ A high-performance, production-ready order execution engine for decentralized ex
 - **Multi-DEX Routing**: Intelligent routing across Raydium and Meteora DEXs
 - **Real-time Updates**: WebSocket streaming of order status changes
 - **Concurrent Processing**: Handle 10 simultaneous orders with 100/min rate limiting
-- **Multiple Trading Pairs**: BTC/USDT, ETH/USDT, BTC/ETH
+- **Multiple Trading Pairs**: BTC/USDT, ETH/USDT, BTC/ETH, and 22 more pairs
 - **Robust Error Handling**: Custom error classes with graceful degradation
 - **Queue Management**: BullMQ with Redis for reliable job processing
 - **Comprehensive Testing**: 59+ tests with Jest
 - **Professional Documentation**: Complete API docs, setup guides, and test scripts
+- **Dual Mode Operation**: Mock mode for testing and Real Devnet mode for Solana blockchain integration
+- **Production Monitoring**: Comprehensive health checks and performance metrics
+- **Deployment Verification**: Automated deployment validation scripts
 
 ## Architecture
 
@@ -138,6 +141,14 @@ REDIS_PASSWORD=
 # Queue
 QUEUE_CONCURRENCY=10
 QUEUE_RATE_LIMIT=100
+
+# Trading Mode
+MOCK_MODE=true                              # true = mock mode, false = real Solana devnet
+
+# Solana Configuration (Required for Real Mode)
+SOLANA_RPC_URL=https://api.devnet.solana.com
+SOLANA_NETWORK=devnet                       # devnet, mainnet-beta
+WALLET_PRIVATE_KEY=                         # Base58 encoded private key (keep secret!)
 ```
 
 ## Setup
@@ -169,6 +180,54 @@ npm run dev
 ```
 
 Server starts at `http://localhost:3000`
+
+## Operating Modes
+
+The engine supports two operating modes:
+
+### Mock Mode (Default)
+- **Use Case**: Development, testing, CI/CD pipelines
+- **Configuration**: `MOCK_MODE=true` in `.env`
+- **Behavior**: Simulates DEX operations without blockchain interaction
+- **Advantages**: Fast, deterministic, no blockchain dependencies
+- **Limitations**: No real blockchain transactions
+
+### Real Devnet Mode
+- **Use Case**: Integration testing with Solana devnet
+- **Configuration**: `MOCK_MODE=false` in `.env`
+- **Behavior**: Connects to Solana devnet and simulates swaps with real network latency
+- **Prerequisites**:
+  - Valid Solana wallet keypair
+  - Devnet SOL for transaction fees (airdrop available)
+  - RPC endpoint configured
+- **See**: [DEVNET_GUIDE.md](DEVNET_GUIDE.md) for complete setup instructions
+
+### Quick Mode Switching
+
+**Switch to Mock Mode:**
+```bash
+# In .env
+MOCK_MODE=true
+
+# Restart server
+npm run dev
+```
+
+**Switch to Real Devnet Mode:**
+```bash
+# In .env
+MOCK_MODE=false
+SOLANA_RPC_URL=https://api.devnet.solana.com
+SOLANA_NETWORK=devnet
+WALLET_PRIVATE_KEY=your_base58_private_key
+
+# Restart server
+npm run dev
+```
+
+The system automatically detects the mode and initializes appropriate DEX services:
+- Mock Mode: Uses `MockRaydiumService` and `MockMeteoraService`
+- Real Mode: Uses `RealRaydiumService` and `RealMeteoraService`
 
 ## API Endpoints
 
@@ -428,6 +487,79 @@ Custom error classes with appropriate HTTP status codes:
 - **Rate Limit**: 100 orders per minute
 - **Retry Policy**: Exponential backoff (1s, 2s, 4s) with max 3 attempts
 
+## Monitoring & Health Checks
+
+The system includes comprehensive monitoring capabilities for production operations.
+
+### Health Endpoints
+
+**System Health** - `GET /health`
+```bash
+curl http://localhost:3000/health
+```
+
+Returns complete system status including:
+- Overall system health (healthy/degraded/unhealthy)
+- Component health (Database, Redis, Queue, Solana RPC)
+- Performance metrics (memory, CPU, queue stats)
+- Trading mode (mock/real)
+
+**Mode Information** - `GET /health/mode`
+```bash
+curl http://localhost:3000/health/mode
+```
+
+Returns trading mode configuration and settings.
+
+**Performance Metrics** - `GET /health/metrics`
+```bash
+curl http://localhost:3000/health/metrics
+```
+
+Returns detailed performance metrics for monitoring dashboards.
+
+### Component Monitoring
+
+**Database (MongoDB)**
+- Connection state tracking
+- Host and database information
+- Real-time connection status
+
+**Redis**
+- Connectivity checks via PING
+- Connection health validation
+- Stats collection
+
+**Queue (BullMQ)**
+- Failure rate monitoring (healthy < 10%, degraded < 20%, unhealthy > 20%)
+- Throughput tracking
+- Active/waiting/completed job counts
+
+**Solana RPC** (Real Mode only)
+- RPC connectivity validation
+- Network status (devnet/mainnet-beta)
+- Current slot tracking
+- Version information
+
+### Deployment Verification
+
+Automated verification script for CI/CD:
+
+```bash
+# Local verification
+npm run verify-deployment
+
+# Remote verification
+DEPLOYMENT_URL=https://your-app.railway.app npm run verify-deployment
+```
+
+Performs 5 comprehensive checks:
+1. System health validation
+2. Mode detection
+3. Performance metrics
+4. Order execution flow
+5. API endpoint availability
+
 ## Production Deployment
 
 ### Railway Deployment
@@ -518,32 +650,50 @@ curl http://localhost:3000/health
 - Check firewall settings
 - Verify order ID exists
 
-## Contributing
+### Real Devnet Mode Issues
 
-1. Fork the repository
-2. Create feature branch: `git checkout -b feature/new-feature`
-3. Commit changes: `git commit -m 'Add new feature'`
-4. Push to branch: `git push origin feature/new-feature`
-5. Submit pull request
+**RPC Connection Failures:**
+```bash
+# Test RPC connectivity
+curl https://api.devnet.solana.com -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","id":1,"method":"getHealth"}'
 
-## License
+# Try alternative RPC endpoints (see DEVNET_GUIDE.md)
+SOLANA_RPC_URL=https://devnet.helius-rpc.com
+```
 
-MIT
+**Wallet/Keypair Issues:**
+```bash
+# Generate new keypair
+npm run generate-keypair
 
-## Support
+# Check wallet balance
+npm run check-balance
 
-For issues and questions:
-- GitHub Issues: [repository-url]/issues
-- Documentation: See `/docs` folder
-- Postman Collection: See `/postman` folder
+# Request devnet SOL airdrop
+npm run airdrop
+```
 
-## Roadmap
+**Insufficient Balance:**
+```bash
+# Ensure at least 0.01 SOL for transaction fees
+npm run check-balance
 
-- [ ] Add limit order support
-- [ ] Add sniper order functionality
-- [ ] Integrate real DEX APIs
-- [ ] Add authentication/authorization
-- [ ] Implement order cancellation
-- [ ] Add order history pagination
-- [ ] WebSocket reconnection logic
-- [ ] Advanced analytics dashboard
+# Request airdrop (devnet only, 1-2 SOL)
+npm run airdrop
+```
+
+**Configuration Validation Errors:**
+```bash
+# Run configuration validation
+npm run validate-setup
+
+# Common fixes:
+# - Check WALLET_PRIVATE_KEY is base58 encoded
+# - Verify SOLANA_RPC_URL is accessible
+# - Ensure SOLANA_NETWORK matches RPC endpoint (devnet/mainnet-beta)
+```
+
+
+
+
+

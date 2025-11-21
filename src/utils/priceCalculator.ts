@@ -1,7 +1,8 @@
 import { TradingPair } from '../types';
 
 // Base prices for trading pairs (realistic market prices)
-export const BASE_PRICES: Record<TradingPair, number> = {
+// Only supporting BTC, ETH for now - others can be added as needed
+export const BASE_PRICES: Partial<Record<TradingPair, number>> = {
   [TradingPair.BTC_USDT]: 43000, // BTC price in USDT
   [TradingPair.ETH_USDT]: 2300, // ETH price in USDT
   [TradingPair.BTC_ETH]: 18.7, // BTC price in ETH (43000 / 2300)
@@ -24,7 +25,11 @@ export const calculateEffectivePrice = (price: number, fee: number): number => {
 
 // Get base price for a trading pair
 export const getBasePrice = (pair: TradingPair): number => {
-  return BASE_PRICES[pair];
+  const price = BASE_PRICES[pair];
+  if (price === undefined) {
+    throw new Error(`Price not available for trading pair: ${pair}`);
+  }
+  return price;
 };
 
 // Calculate slippage impact

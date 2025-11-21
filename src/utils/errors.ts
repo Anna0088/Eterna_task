@@ -85,6 +85,89 @@ export class WebSocketError extends AppError {
 }
 
 /**
+ * Network/RPC connection error (retryable)
+ */
+export class NetworkError extends AppError {
+  constructor(message: string, public endpoint?: string) {
+    super(message, 503, 'NETWORK_ERROR');
+  }
+}
+
+/**
+ * Blockchain transaction error
+ */
+export class BlockchainError extends AppError {
+  constructor(message: string, public txHash?: string) {
+    super(message, 500, 'BLOCKCHAIN_ERROR');
+  }
+}
+
+/**
+ * Configuration error (critical)
+ */
+export class ConfigurationError extends AppError {
+  constructor(message: string, public configKey?: string) {
+    super(message, 500, 'CONFIGURATION_ERROR');
+  }
+}
+
+/**
+ * Insufficient balance error
+ */
+export class InsufficientBalanceError extends AppError {
+  constructor(
+    required: number,
+    available: number,
+    public currency: string = 'SOL'
+  ) {
+    super(
+      `Insufficient ${currency} balance. Required: ${required}, Available: ${available}`,
+      400,
+      'INSUFFICIENT_BALANCE'
+    );
+  }
+}
+
+/**
+ * Slippage exceeded error
+ */
+export class SlippageExceededError extends AppError {
+  constructor(
+    expected: number,
+    actual: number,
+    public tolerance: number
+  ) {
+    super(
+      `Slippage exceeded tolerance. Expected: ${expected}, Actual: ${actual}, Tolerance: ${tolerance * 100}%`,
+      400,
+      'SLIPPAGE_EXCEEDED'
+    );
+  }
+}
+
+/**
+ * Pool not found error
+ */
+export class PoolNotFoundError extends AppError {
+  constructor(public pair: string, public dex: string) {
+    super(`Pool not found for ${pair} on ${dex}`, 404, 'POOL_NOT_FOUND');
+  }
+}
+
+/**
+ * Transaction timeout error (retryable)
+ */
+export class TransactionTimeoutError extends AppError {
+  constructor(public txHash: string, public timeout: number) {
+    super(
+      `Transaction timeout after ${timeout}ms: ${txHash}`,
+      504,
+      'TRANSACTION_TIMEOUT'
+    );
+  }
+}
+
+/**
  * Check if error is a known application error
  */
 export function isAppError(error: unknown): error is AppError {
@@ -122,4 +205,113 @@ export function formatErrorResponse(error: unknown) {
     message: getErrorMessage(error),
     statusCode: 500,
   };
+}
+
+/**
+ * Determine if error is retryable
+ */
+export function isRetryableError(error: Error): boolean {
+  // Specific retryable error types
+  if (
+    error instanceof NetworkError ||
+    error instanceof TransactionTimeoutError ||
+    error instanceof DatabaseError
+  ) {
+    return true;
+  }
+
+  // Pattern-based detection for unknown errors
+  const retryablePatterns = [
+    /network/i,
+    /timeout/i,
+    /ECONNREFUSED/i,
+    /ETIMEDOUT/i,
+    /ENOTFOUND/i,
+    /rate limit/i,
+    /too many requests/i,
+    /503/i,
+    /504/i,
+  ];
+
+  return retryablePatterns.some(pattern => pattern.test(error.message));
+}
+
+/**
+ * Get user-friendly error message
+ */
+export function getUserFriendlyMessage(error: Error): string {
+  if (error instanceof ValidationError) {
+    return `Invalid input: ${error.message}`;
+  }
+  if (error instanceof InsufficientBalanceError) {
+    return 'Insufficient balance for this transaction';
+  }
+  if (error instanceof SlippageExceededError) {
+    return 'Price moved too much during execution. Please try again.';
+  }
+  if (error instanceof PoolNotFoundError) {
+    return 'This trading pair is not available right now';
+  }
+  if (error instanceof NetworkError) {
+    return 'Network connection issue. Please try again.';
+  }
+  if (error instanceof ConfigurationError) {
+    return 'System configuration error. Please contact support.';
+  }
+  if (error instanceof TransactionTimeoutError) {
+    return 'Transaction is taking longer than expected. Please check status.';
+  }
+
+  // Generic message for unknown errors
+  return 'An unexpected error occurred. Please try again later.';
+}
+
+/**
+ * Log error with context
+ */
+export function logError(error: Error, context?: string): void {
+  const prefix = context ? `[${context}]` : '';
+  const timestamp = new Date().toISOString();
+
+  if (isAppError(error)) {
+    console.error(`${timestamp} ${prefix} ${error.name} [${error.code}]:`, error.message);
+  } else {
+    console.error(`${timestamp} ${prefix} Error:`, error.message);
+  }
+
+  // Log stack trace for non-validation errors
+  if (!(error instanceof ValidationError)) {
+    console.error('Stack:', error.stack);
+  }
+}
+
+/**
+ * Wrap async function with error handling
+ */
+export async function withErrorHandling<T>(
+  fn: () => Promise<T>,
+  context: string
+): Promise<T> {
+  try {
+    return await fn();
+  } catch (error) {
+    logError(error as Error, context);
+    throw error;
+  }
+}
+
+/**
+ * Safe execution wrapper with fallback
+ */
+export async function safeExecute<T>(
+  fn: () => Promise<T>,
+  fallback: T,
+  context: string
+): Promise<T> {
+  try {
+    return await fn();
+  } catch (error) {
+    logError(error as Error, context);
+    return fallback;
+  }
 }
