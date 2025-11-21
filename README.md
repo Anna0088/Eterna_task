@@ -4,11 +4,12 @@ A high-performance, production-ready order execution engine for decentralized ex
 
 ## 🔗 Quick Links
 
+- **🚀 Quick Start:** [../QUICKSTART.md](../QUICKSTART.md) - Run and test the backend in 5 minutes
 - **Live Demo:** [https://your-app.railway.app](https://your-app.railway.app) _(Update after deployment)_
 - **Video Demo:** [YouTube Demo](https://youtube.com/watch?v=YOUR_VIDEO_ID) _(Update after recording)_
-- **API Documentation:** [docs/API.md](docs/API.md)
+- **API Documentation:** [../API.md](../API.md)
 - **Postman Collection:** [postman/DEX_Order_Engine.postman_collection.json](postman/DEX_Order_Engine.postman_collection.json)
-- **Deployment Guide:** [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)
+- **Deployment Guide:** [../DEPLOYMENT.md](../DEPLOYMENT.md)
 
 ## Features
 

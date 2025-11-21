@@ -58,6 +58,17 @@ const OrderSchema = new Schema<OrderDocument>(
       default: OrderStatus.PENDING,
       index: true,
     },
+    limitPrice: {
+      type: Number,
+      required: false,
+      min: 0,
+      index: true,
+    },
+    expiresAt: {
+      type: Date,
+      required: false,
+      index: true,
+    },
     dexUsed: {
       type: String,
       required: false,
@@ -89,6 +100,9 @@ const OrderSchema = new Schema<OrderDocument>(
 OrderSchema.index({ createdAt: -1 });
 OrderSchema.index({ status: 1, createdAt: -1 });
 OrderSchema.index({ pair: 1, status: 1 });
+// Limit order specific indexes
+OrderSchema.index({ status: 1, type: 1, expiresAt: 1 });
+OrderSchema.index({ limitPrice: 1, status: 1, pair: 1 });
 
 // Add status to history before saving
 OrderSchema.pre('save', function (next) {

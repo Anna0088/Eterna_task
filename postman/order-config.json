@@ -1,0 +1,148 @@
+{
+  "tradingPairs": [
+    {
+      "pair": "BTC/USDT",
+      "enabled": true,
+      "defaultAmount": 0.5,
+      "description": "Bitcoin to USDT"
+    },
+    {
+      "pair": "ETH/USDT",
+      "enabled": true,
+      "defaultAmount": 10,
+      "description": "Ethereum to USDT"
+    },
+    {
+      "pair": "BTC/ETH",
+      "enabled": true,
+      "defaultAmount": 0.25,
+      "description": "Bitcoin to Ethereum"
+    }
+  ],
+  "orderTypes": [
+    {
+      "type": "MARKET",
+      "enabled": true,
+      "description": "Market order - execute immediately at current market price"
+    },
+    {
+      "type": "LIMIT",
+      "enabled": true,
+      "description": "Limit order - execute when price reaches specified target"
+    }
+  ],
+  "walletAddresses": [
+    {
+      "name": "Default Wallet",
+      "address": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+      "network": "Solana",
+      "isDefault": true
+    }
+  ],
+  "orderDefaults": {
+    "type": "MARKET",
+    "walletAddress": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
+  },
+  "validationRules": {
+    "amount": {
+      "min": 0.0001,
+      "max": 1000000,
+      "mustBePositive": true
+    },
+    "limitPrice": {
+      "min": 0.0001,
+      "mustBePositive": true,
+      "requiredForLimitOrders": true
+    },
+    "expiresAt": {
+      "mustBeFutureDate": true,
+      "maxDaysInFuture": 30
+    },
+    "walletAddress": {
+      "format": "Solana",
+      "required": true
+    }
+  },
+  "statusOptions": [
+    "PENDING",
+    "WAITING_FOR_PRICE",
+    "ROUTING",
+    "BUILDING",
+    "SUBMITTED",
+    "CONFIRMED",
+    "FAILED",
+    "EXPIRED",
+    "CANCELLED"
+  ],
+  "limitOrderSettings": {
+    "priceCheckIntervalMs": 10000,
+    "defaultExpirationHours": 24,
+    "maxActiveLimitOrders": 1000,
+    "priceMatchThreshold": 0.001
+  },
+  "pagination": {
+    "defaultLimit": 10,
+    "maxLimit": 100,
+    "defaultPage": 1,
+    "minPage": 1
+  },
+  "api": {
+    "baseUrl": "http://localhost:3000",
+    "wsUrl": "localhost:3000",
+    "endpoints": {
+      "health": "/health",
+      "executeOrder": "/api/orders/execute",
+      "getOrder": "/api/orders/:orderId",
+      "listOrders": "/api/orders",
+      "activeLimitOrders": "/api/orders/limit/active",
+      "cancelOrder": "/api/orders/:orderId/cancel",
+      "wsOrderStatus": "/api/orders/:orderId/ws",
+      "wsGeneral": "/api/orders/ws"
+    }
+  },
+  "testScenarios": {
+    "BTC_USDT_Market": {
+      "type": "MARKET",
+      "pair": "BTC/USDT",
+      "amount": 0.5,
+      "walletAddress": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
+    },
+    "ETH_USDT_Market": {
+      "type": "MARKET",
+      "pair": "ETH/USDT",
+      "amount": 10,
+      "walletAddress": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
+    },
+    "BTC_ETH_Market": {
+      "type": "MARKET",
+      "pair": "BTC/ETH",
+      "amount": 0.25,
+      "walletAddress": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
+    },
+    "BTC_USDT_Limit_Buy": {
+      "type": "LIMIT",
+      "pair": "BTC/USDT",
+      "amount": 0.5,
+      "limitPrice": 40000,
+      "walletAddress": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+      "description": "Buy 0.5 BTC when price reaches $40,000"
+    },
+    "ETH_USDT_Limit_Buy": {
+      "type": "LIMIT",
+      "pair": "ETH/USDT",
+      "amount": 10,
+      "limitPrice": 2200,
+      "expiresAt": "2025-12-31T23:59:59Z",
+      "walletAddress": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+      "description": "Buy 10 ETH when price reaches $2,200, expires end of 2025"
+    },
+    "BTC_ETH_Limit_Sell": {
+      "type": "LIMIT",
+      "pair": "BTC/ETH",
+      "amount": 0.25,
+      "limitPrice": 18.5,
+      "walletAddress": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+      "description": "Sell 0.25 BTC when BTC/ETH ratio reaches 18.5"
+    }
+  }
+}

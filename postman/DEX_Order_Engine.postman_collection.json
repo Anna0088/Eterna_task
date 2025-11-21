@@ -39,6 +39,50 @@
             }
           ],
           "body": "{\n  \"status\": \"ok\",\n  \"timestamp\": \"2025-01-20T10:30:00.000Z\",\n  \"uptime\": 3600,\n  \"database\": \"connected\",\n  \"redis\": \"connected\",\n  \"queue\": {\n    \"waiting\": 5,\n    \"active\": 3,\n    \"completed\": 120,\n    \"failed\": 2,\n    \"delayed\": 0,\n    \"total\": 130\n  }\n}"
+        },
+        {
+          "name": "Error - Database Disconnected",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/health",
+              "host": ["{{BASE_URL}}"],
+              "path": ["health"]
+            }
+          },
+          "status": "Service Unavailable",
+          "code": 503,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"error\",\n  \"timestamp\": \"2025-01-20T10:30:00.000Z\",\n  \"uptime\": 3600,\n  \"database\": \"disconnected\",\n  \"redis\": \"connected\",\n  \"error\": \"Database connection failed\"\n}"
+        },
+        {
+          "name": "Error - Redis Disconnected",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/health",
+              "host": ["{{BASE_URL}}"],
+              "path": ["health"]
+            }
+          },
+          "status": "Service Unavailable",
+          "code": 503,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"error\",\n  \"timestamp\": \"2025-01-20T10:30:00.000Z\",\n  \"uptime\": 3600,\n  \"database\": \"connected\",\n  \"redis\": \"disconnected\",\n  \"error\": \"Redis connection failed\"\n}"
         }
       ]
     },
@@ -94,6 +138,192 @@
             }
           ],
           "body": "{\n  \"orderId\": \"65abc123def456789\",\n  \"status\": \"PENDING\",\n  \"message\": \"Order received and queued for processing\",\n  \"websocket\": \"/api/orders/65abc123def456789/ws\"\n}"
+        },
+        {
+          "name": "Error - Invalid Trading Pair",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"INVALID/PAIR\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders/execute",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders", "execute"]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Invalid trading pair\",\n  \"message\": \"Supported pairs are: BTC/USDT, ETH/USDT, BTC/ETH\",\n  \"statusCode\": 400\n}"
+        },
+        {
+          "name": "Error - Invalid Order Type",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"LIMIT\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders/execute",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders", "execute"]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Invalid order type\",\n  \"message\": \"Only MARKET orders are currently supported\",\n  \"statusCode\": 400\n}"
+        },
+        {
+          "name": "Error - Invalid Amount",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": -0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders/execute",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders", "execute"]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Invalid amount\",\n  \"message\": \"Amount must be a positive number\",\n  \"statusCode\": 400\n}"
+        },
+        {
+          "name": "Error - Invalid Wallet Address",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"invalid_address\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders/execute",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders", "execute"]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Invalid wallet address\",\n  \"message\": \"Please provide a valid Solana wallet address\",\n  \"statusCode\": 400\n}"
+        },
+        {
+          "name": "Error - Missing Required Fields",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/USDT\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders/execute",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders", "execute"]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Validation failed\",\n  \"message\": \"Missing required fields: amount, walletAddress\",\n  \"statusCode\": 400\n}"
+        },
+        {
+          "name": "Error - Service Unavailable",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders/execute",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders", "execute"]
+            }
+          },
+          "status": "Service Unavailable",
+          "code": 503,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Service temporarily unavailable\",\n  \"message\": \"Unable to process orders at this time. Please try again later.\",\n  \"statusCode\": 503\n}"
         }
       ]
     },
@@ -118,7 +348,101 @@
         },
         "description": "Execute an ETH/USDT market order for 10 ETH"
       },
-      "response": []
+      "response": [
+        {
+          "name": "Success",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"ETH/USDT\",\n  \"amount\": 10,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders/execute",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders", "execute"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"orderId\": \"65abc456def789012\",\n  \"status\": \"PENDING\",\n  \"message\": \"Order received and queued for processing\",\n  \"websocket\": \"/api/orders/65abc456def789012/ws\"\n}"
+        },
+        {
+          "name": "Error - Invalid Trading Pair",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"INVALID/PAIR\",\n  \"amount\": 10,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders/execute",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders", "execute"]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Invalid trading pair\",\n  \"message\": \"Supported pairs are: BTC/USDT, ETH/USDT, BTC/ETH\",\n  \"statusCode\": 400\n}"
+        },
+        {
+          "name": "Error - Missing Required Fields",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"ETH/USDT\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders/execute",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders", "execute"]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Validation failed\",\n  \"message\": \"Missing required fields: amount, walletAddress\",\n  \"statusCode\": 400\n}"
+        }
+      ]
     },
     {
       "name": "Execute Order - BTC/ETH",
@@ -141,7 +465,101 @@
         },
         "description": "Execute a BTC/ETH market order for 0.25 BTC"
       },
-      "response": []
+      "response": [
+        {
+          "name": "Success",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/ETH\",\n  \"amount\": 0.25,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders/execute",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders", "execute"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"orderId\": \"65abc789def012345\",\n  \"status\": \"PENDING\",\n  \"message\": \"Order received and queued for processing\",\n  \"websocket\": \"/api/orders/65abc789def012345/ws\"\n}"
+        },
+        {
+          "name": "Error - Invalid Trading Pair",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"INVALID/PAIR\",\n  \"amount\": 0.25,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders/execute",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders", "execute"]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Invalid trading pair\",\n  \"message\": \"Supported pairs are: BTC/USDT, ETH/USDT, BTC/ETH\",\n  \"statusCode\": 400\n}"
+        },
+        {
+          "name": "Error - Missing Required Fields",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/ETH\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders/execute",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders", "execute"]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Validation failed\",\n  \"message\": \"Missing required fields: amount, walletAddress\",\n  \"statusCode\": 400\n}"
+        }
+      ]
     },
     {
       "name": "Get Order by ID",
@@ -184,6 +602,94 @@
             }
           ],
           "body": "{\n  \"_id\": \"65abc123def456789\",\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n  \"status\": \"CONFIRMED\",\n  \"dexUsed\": \"Meteora\",\n  \"executedPrice\": 42856.50,\n  \"receivedAmount\": 21385.50,\n  \"fee\": 42.77,\n  \"txHash\": \"0x1234567890abcdef...\",\n  \"statusHistory\": [\n    {\n      \"status\": \"PENDING\",\n      \"timestamp\": \"2025-01-20T10:30:00.000Z\"\n    },\n    {\n      \"status\": \"ROUTING\",\n      \"timestamp\": \"2025-01-20T10:30:01.000Z\",\n      \"metadata\": {\n        \"message\": \"Fetching quotes from DEXs\"\n      }\n    },\n    {\n      \"status\": \"BUILDING\",\n      \"timestamp\": \"2025-01-20T10:30:01.500Z\",\n      \"metadata\": {\n        \"dex\": \"Meteora\",\n        \"reason\": \"Better output by 1.2%\"\n      }\n    },\n    {\n      \"status\": \"SUBMITTED\",\n      \"timestamp\": \"2025-01-20T10:30:03.000Z\",\n      \"metadata\": {\n        \"txHash\": \"0x1234567890abcdef...\"\n      }\n    },\n    {\n      \"status\": \"CONFIRMED\",\n      \"timestamp\": \"2025-01-20T10:30:05.000Z\"\n    }\n  ],\n  \"createdAt\": \"2025-01-20T10:30:00.000Z\",\n  \"updatedAt\": \"2025-01-20T10:30:05.000Z\"\n}"
+        },
+        {
+          "name": "Success - Pending",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders/65abc123def456789",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders", "65abc123def456789"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"_id\": \"65abc123def456789\",\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n  \"status\": \"PENDING\",\n  \"statusHistory\": [\n    {\n      \"status\": \"PENDING\",\n      \"timestamp\": \"2025-01-20T10:30:00.000Z\"\n    }\n  ],\n  \"createdAt\": \"2025-01-20T10:30:00.000Z\",\n  \"updatedAt\": \"2025-01-20T10:30:00.000Z\"\n}"
+        },
+        {
+          "name": "Success - Failed",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders/65abc123def456789",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders", "65abc123def456789"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"_id\": \"65abc123def456789\",\n  \"type\": \"MARKET\",\n  \"pair\": \"BTC/USDT\",\n  \"amount\": 0.5,\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n  \"status\": \"FAILED\",\n  \"error\": \"Insufficient liquidity available on DEXs\",\n  \"statusHistory\": [\n    {\n      \"status\": \"PENDING\",\n      \"timestamp\": \"2025-01-20T10:30:00.000Z\"\n    },\n    {\n      \"status\": \"ROUTING\",\n      \"timestamp\": \"2025-01-20T10:30:01.000Z\",\n      \"metadata\": {\n        \"message\": \"Fetching quotes from DEXs\"\n      }\n    },\n    {\n      \"status\": \"FAILED\",\n      \"timestamp\": \"2025-01-20T10:30:02.000Z\",\n      \"metadata\": {\n        \"error\": \"Insufficient liquidity available on DEXs\"\n      }\n    }\n  ],\n  \"createdAt\": \"2025-01-20T10:30:00.000Z\",\n  \"updatedAt\": \"2025-01-20T10:30:02.000Z\"\n}"
+        },
+        {
+          "name": "Error - Order Not Found",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders/nonexistent123",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders", "nonexistent123"]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Order not found\",\n  \"message\": \"No order found with ID: nonexistent123\",\n  \"statusCode\": 404\n}"
+        },
+        {
+          "name": "Error - Invalid Order ID Format",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders/invalid-id",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders", "invalid-id"]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Invalid order ID format\",\n  \"message\": \"Order ID must be a valid MongoDB ObjectId\",\n  \"statusCode\": 400\n}"
         }
       ]
     },
@@ -199,7 +705,52 @@
         },
         "description": "List all orders with optional filters"
       },
-      "response": []
+      "response": [
+        {
+          "name": "Success",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"orders\": [\n    {\n      \"_id\": \"65abc123def456789\",\n      \"type\": \"MARKET\",\n      \"pair\": \"BTC/USDT\",\n      \"amount\": 0.5,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"CONFIRMED\",\n      \"dexUsed\": \"Meteora\",\n      \"executedPrice\": 42856.50,\n      \"receivedAmount\": 21385.50,\n      \"fee\": 42.77,\n      \"txHash\": \"0x1234567890abcdef...\",\n      \"createdAt\": \"2025-01-20T10:30:00.000Z\",\n      \"updatedAt\": \"2025-01-20T10:30:05.000Z\"\n    },\n    {\n      \"_id\": \"65abc456def789012\",\n      \"type\": \"MARKET\",\n      \"pair\": \"ETH/USDT\",\n      \"amount\": 10,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"PENDING\",\n      \"createdAt\": \"2025-01-20T11:00:00.000Z\",\n      \"updatedAt\": \"2025-01-20T11:00:00.000Z\"\n    },\n    {\n      \"_id\": \"65abc789def012345\",\n      \"type\": \"MARKET\",\n      \"pair\": \"BTC/ETH\",\n      \"amount\": 0.25,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"FAILED\",\n      \"error\": \"Insufficient liquidity\",\n      \"createdAt\": \"2025-01-20T11:15:00.000Z\",\n      \"updatedAt\": \"2025-01-20T11:15:02.000Z\"\n    }\n  ],\n  \"pagination\": {\n    \"total\": 3,\n    \"page\": 1,\n    \"limit\": 10,\n    \"totalPages\": 1\n  }\n}"
+        },
+        {
+          "name": "Success - Empty Result",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"orders\": [],\n  \"pagination\": {\n    \"total\": 0,\n    \"page\": 1,\n    \"limit\": 10,\n    \"totalPages\": 0\n  }\n}"
+        }
+      ]
     },
     {
       "name": "List Orders - Filter by Status",
@@ -230,7 +781,116 @@
         },
         "description": "List orders filtered by status with pagination"
       },
-      "response": []
+      "response": [
+        {
+          "name": "Success",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders?status=CONFIRMED&limit=10&page=1",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "CONFIRMED"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"orders\": [\n    {\n      \"_id\": \"65abc123def456789\",\n      \"type\": \"MARKET\",\n      \"pair\": \"BTC/USDT\",\n      \"amount\": 0.5,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"CONFIRMED\",\n      \"dexUsed\": \"Meteora\",\n      \"executedPrice\": 42856.50,\n      \"receivedAmount\": 21385.50,\n      \"fee\": 42.77,\n      \"txHash\": \"0x1234567890abcdef...\",\n      \"createdAt\": \"2025-01-20T10:30:00.000Z\",\n      \"updatedAt\": \"2025-01-20T10:30:05.000Z\"\n    },\n    {\n      \"_id\": \"65abc999def111111\",\n      \"type\": \"MARKET\",\n      \"pair\": \"ETH/USDT\",\n      \"amount\": 5,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"CONFIRMED\",\n      \"dexUsed\": \"Raydium\",\n      \"executedPrice\": 2456.30,\n      \"receivedAmount\": 12281.50,\n      \"fee\": 24.56,\n      \"txHash\": \"0xabcdef1234567890...\",\n      \"createdAt\": \"2025-01-20T10:45:00.000Z\",\n      \"updatedAt\": \"2025-01-20T10:45:04.000Z\"\n    }\n  ],\n  \"pagination\": {\n    \"total\": 2,\n    \"page\": 1,\n    \"limit\": 10,\n    \"totalPages\": 1\n  }\n}"
+        },
+        {
+          "name": "Error - Invalid Status",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders?status=INVALID_STATUS&limit=10&page=1",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "INVALID_STATUS"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Invalid status\",\n  \"message\": \"Status must be one of: PENDING, ROUTING, BUILDING, SUBMITTED, CONFIRMED, FAILED\",\n  \"statusCode\": 400\n}"
+        },
+        {
+          "name": "Error - Invalid Pagination Parameters",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders?status=CONFIRMED&limit=-1&page=0",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "CONFIRMED"
+                },
+                {
+                  "key": "limit",
+                  "value": "-1"
+                },
+                {
+                  "key": "page",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Invalid pagination parameters\",\n  \"message\": \"Page must be >= 1 and limit must be between 1 and 100\",\n  \"statusCode\": 400\n}"
+        }
+      ]
     },
     {
       "name": "List Orders - Filter by Pair",
@@ -259,7 +919,80 @@
         },
         "description": "List orders filtered by trading pair"
       },
-      "response": []
+      "response": [
+        {
+          "name": "Success",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders?pair=BTC/USDT&limit=20&page=1",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders"],
+              "query": [
+                {
+                  "key": "pair",
+                  "value": "BTC/USDT"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"orders\": [\n    {\n      \"_id\": \"65abc123def456789\",\n      \"type\": \"MARKET\",\n      \"pair\": \"BTC/USDT\",\n      \"amount\": 0.5,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"CONFIRMED\",\n      \"dexUsed\": \"Meteora\",\n      \"executedPrice\": 42856.50,\n      \"receivedAmount\": 21385.50,\n      \"fee\": 42.77,\n      \"txHash\": \"0x1234567890abcdef...\",\n      \"createdAt\": \"2025-01-20T10:30:00.000Z\",\n      \"updatedAt\": \"2025-01-20T10:30:05.000Z\"\n    },\n    {\n      \"_id\": \"65abc222def333333\",\n      \"type\": \"MARKET\",\n      \"pair\": \"BTC/USDT\",\n      \"amount\": 1.0,\n      \"walletAddress\": \"0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb\",\n      \"status\": \"PENDING\",\n      \"createdAt\": \"2025-01-20T12:00:00.000Z\",\n      \"updatedAt\": \"2025-01-20T12:00:00.000Z\"\n    }\n  ],\n  \"pagination\": {\n    \"total\": 2,\n    \"page\": 1,\n    \"limit\": 20,\n    \"totalPages\": 1\n  }\n}"
+        },
+        {
+          "name": "Error - Invalid Pair",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/orders?pair=INVALID/PAIR&limit=20&page=1",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "orders"],
+              "query": [
+                {
+                  "key": "pair",
+                  "value": "INVALID/PAIR"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"error\": \"Invalid trading pair\",\n  \"message\": \"Supported pairs are: BTC/USDT, ETH/USDT, BTC/ETH\",\n  \"statusCode\": 400\n}"
+        }
+      ]
     },
     {
       "name": "WebSocket - Order Status Updates",
@@ -281,7 +1014,143 @@
         },
         "description": "WebSocket connection for real-time order status updates. Auto-subscribes to the specified order.\n\nExample messages received:\n\n1. Connection confirmation:\n{\n  \"type\": \"connected\",\n  \"clientId\": \"client-abc123\",\n  \"subscribedTo\": \"65abc123def456789\"\n}\n\n2. Status updates:\n{\n  \"type\": \"status_update\",\n  \"orderId\": \"65abc123def456789\",\n  \"status\": \"ROUTING\",\n  \"timestamp\": \"2025-01-20T10:30:01.000Z\",\n  \"metadata\": {\n    \"message\": \"Fetching quotes from DEXs\"\n  }\n}\n\n3. Error:\n{\n  \"type\": \"error\",\n  \"message\": \"Order not found\"\n}"
       },
-      "response": []
+      "response": [
+        {
+          "name": "Connection Success",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "ws://{{WS_URL}}/api/orders/65abc123def456789/ws",
+              "protocol": "ws",
+              "host": ["{{WS_URL}}"],
+              "path": ["api", "orders", "65abc123def456789", "ws"]
+            }
+          },
+          "status": "Switching Protocols",
+          "code": 101,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Upgrade",
+              "value": "websocket"
+            },
+            {
+              "key": "Connection",
+              "value": "Upgrade"
+            }
+          ],
+          "body": "{\n  \"type\": \"connected\",\n  \"clientId\": \"client-abc123\",\n  \"subscribedTo\": \"65abc123def456789\"\n}"
+        },
+        {
+          "name": "Status Update - ROUTING",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "ws://{{WS_URL}}/api/orders/65abc123def456789/ws",
+              "protocol": "ws",
+              "host": ["{{WS_URL}}"],
+              "path": ["api", "orders", "65abc123def456789", "ws"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [],
+          "body": "{\n  \"type\": \"status_update\",\n  \"orderId\": \"65abc123def456789\",\n  \"status\": \"ROUTING\",\n  \"timestamp\": \"2025-01-20T10:30:01.000Z\",\n  \"metadata\": {\n    \"message\": \"Fetching quotes from DEXs\"\n  }\n}"
+        },
+        {
+          "name": "Status Update - BUILDING",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "ws://{{WS_URL}}/api/orders/65abc123def456789/ws",
+              "protocol": "ws",
+              "host": ["{{WS_URL}}"],
+              "path": ["api", "orders", "65abc123def456789", "ws"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [],
+          "body": "{\n  \"type\": \"status_update\",\n  \"orderId\": \"65abc123def456789\",\n  \"status\": \"BUILDING\",\n  \"timestamp\": \"2025-01-20T10:30:01.500Z\",\n  \"metadata\": {\n    \"dex\": \"Meteora\",\n    \"reason\": \"Better output by 1.2%\"\n  }\n}"
+        },
+        {
+          "name": "Status Update - SUBMITTED",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "ws://{{WS_URL}}/api/orders/65abc123def456789/ws",
+              "protocol": "ws",
+              "host": ["{{WS_URL}}"],
+              "path": ["api", "orders", "65abc123def456789", "ws"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [],
+          "body": "{\n  \"type\": \"status_update\",\n  \"orderId\": \"65abc123def456789\",\n  \"status\": \"SUBMITTED\",\n  \"timestamp\": \"2025-01-20T10:30:03.000Z\",\n  \"metadata\": {\n    \"txHash\": \"0x1234567890abcdef...\"\n  }\n}"
+        },
+        {
+          "name": "Status Update - CONFIRMED",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "ws://{{WS_URL}}/api/orders/65abc123def456789/ws",
+              "protocol": "ws",
+              "host": ["{{WS_URL}}"],
+              "path": ["api", "orders", "65abc123def456789", "ws"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [],
+          "body": "{\n  \"type\": \"status_update\",\n  \"orderId\": \"65abc123def456789\",\n  \"status\": \"CONFIRMED\",\n  \"timestamp\": \"2025-01-20T10:30:05.000Z\",\n  \"metadata\": {\n    \"executedPrice\": 42856.50,\n    \"receivedAmount\": 21385.50,\n    \"fee\": 42.77\n  }\n}"
+        },
+        {
+          "name": "Status Update - FAILED",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "ws://{{WS_URL}}/api/orders/65abc123def456789/ws",
+              "protocol": "ws",
+              "host": ["{{WS_URL}}"],
+              "path": ["api", "orders", "65abc123def456789", "ws"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [],
+          "body": "{\n  \"type\": \"status_update\",\n  \"orderId\": \"65abc123def456789\",\n  \"status\": \"FAILED\",\n  \"timestamp\": \"2025-01-20T10:30:02.000Z\",\n  \"metadata\": {\n    \"error\": \"Insufficient liquidity available on DEXs\"\n  }\n}"
+        },
+        {
+          "name": "Error - Order Not Found",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "ws://{{WS_URL}}/api/orders/nonexistent123/ws",
+              "protocol": "ws",
+              "host": ["{{WS_URL}}"],
+              "path": ["api", "orders", "nonexistent123", "ws"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [],
+          "body": "{\n  \"type\": \"error\",\n  \"message\": \"Order not found\"\n}"
+        }
+      ]
     },
     {
       "name": "WebSocket - General Stream",
@@ -296,7 +1165,143 @@
         },
         "description": "WebSocket connection for general order stream. Subscribe to specific orders by sending:\n\n{\n  \"action\": \"subscribe\",\n  \"orderId\": \"65abc123def456789\"\n}\n\nUnsubscribe:\n{\n  \"action\": \"unsubscribe\",\n  \"orderId\": \"65abc123def456789\"\n}"
       },
-      "response": []
+      "response": [
+        {
+          "name": "Connection Success",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "ws://{{WS_URL}}/api/orders/ws",
+              "protocol": "ws",
+              "host": ["{{WS_URL}}"],
+              "path": ["api", "orders", "ws"]
+            }
+          },
+          "status": "Switching Protocols",
+          "code": 101,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Upgrade",
+              "value": "websocket"
+            },
+            {
+              "key": "Connection",
+              "value": "Upgrade"
+            }
+          ],
+          "body": "{\n  \"type\": \"connected\",\n  \"clientId\": \"client-xyz789\",\n  \"message\": \"Connected to general order stream\"\n}"
+        },
+        {
+          "name": "Subscribe Success",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "ws://{{WS_URL}}/api/orders/ws",
+              "protocol": "ws",
+              "host": ["{{WS_URL}}"],
+              "path": ["api", "orders", "ws"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [],
+          "body": "{\n  \"type\": \"subscribed\",\n  \"orderId\": \"65abc123def456789\",\n  \"message\": \"Successfully subscribed to order updates\"\n}"
+        },
+        {
+          "name": "Unsubscribe Success",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "ws://{{WS_URL}}/api/orders/ws",
+              "protocol": "ws",
+              "host": ["{{WS_URL}}"],
+              "path": ["api", "orders", "ws"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [],
+          "body": "{\n  \"type\": \"unsubscribed\",\n  \"orderId\": \"65abc123def456789\",\n  \"message\": \"Successfully unsubscribed from order updates\"\n}"
+        },
+        {
+          "name": "Status Update Received",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "ws://{{WS_URL}}/api/orders/ws",
+              "protocol": "ws",
+              "host": ["{{WS_URL}}"],
+              "path": ["api", "orders", "ws"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [],
+          "body": "{\n  \"type\": \"status_update\",\n  \"orderId\": \"65abc123def456789\",\n  \"status\": \"CONFIRMED\",\n  \"timestamp\": \"2025-01-20T10:30:05.000Z\",\n  \"metadata\": {\n    \"executedPrice\": 42856.50,\n    \"receivedAmount\": 21385.50,\n    \"fee\": 42.77\n  }\n}"
+        },
+        {
+          "name": "Error - Invalid Action",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "ws://{{WS_URL}}/api/orders/ws",
+              "protocol": "ws",
+              "host": ["{{WS_URL}}"],
+              "path": ["api", "orders", "ws"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [],
+          "body": "{\n  \"type\": \"error\",\n  \"message\": \"Invalid action. Must be 'subscribe' or 'unsubscribe'\"\n}"
+        },
+        {
+          "name": "Error - Missing Order ID",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "ws://{{WS_URL}}/api/orders/ws",
+              "protocol": "ws",
+              "host": ["{{WS_URL}}"],
+              "path": ["api", "orders", "ws"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [],
+          "body": "{\n  \"type\": \"error\",\n  \"message\": \"Missing orderId in request\"\n}"
+        },
+        {
+          "name": "Error - Order Not Found",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "ws://{{WS_URL}}/api/orders/ws",
+              "protocol": "ws",
+              "host": ["{{WS_URL}}"],
+              "path": ["api", "orders", "ws"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [],
+          "body": "{\n  \"type\": \"error\",\n  \"message\": \"Order not found\"\n}"
+        }
+      ]
     }
   ],
   "variable": [

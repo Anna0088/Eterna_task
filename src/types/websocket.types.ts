@@ -17,4 +17,6 @@ export interface OrderStatusUpdate {
   price?: number;
   txHash?: string;
   error?: string;
+  currentPrice?: number;
+  limitPrice?: number;
 }

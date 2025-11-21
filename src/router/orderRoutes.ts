@@ -20,6 +20,16 @@ export async function orderRoutes(app: FastifyInstance) {
     return orderController.getOrders(request as any, reply);
   });
 
+  // GET /api/orders/limit/active - Get active limit orders
+  app.get('/api/orders/limit/active', async (request, reply) => {
+    return orderController.getActiveLimitOrders(request as any, reply);
+  });
+
+  // DELETE /api/orders/:orderId/cancel - Cancel a limit order
+  app.delete<{ Params: { orderId: string } }>('/api/orders/:orderId/cancel', async (request, reply) => {
+    return orderController.cancelOrder(request, reply);
+  });
+
   // WebSocket endpoint for order status updates
   // GET /api/orders/:orderId/ws - Subscribe to order updates
   app.get<{ Params: { orderId: string } }>(

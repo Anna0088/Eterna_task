@@ -91,4 +91,18 @@ export class DexRouterService {
       return this.meteoraService.getQuote(request);
     }
   }
+
+  /**
+   * Get current market price for a trading pair
+   * Lightweight version for price monitoring (uses small amount for quote)
+   */
+  async getCurrentPrice(pair: TradingPair): Promise<number> {
+    // Use a small amount (0.1) to get the current price without significant slippage
+    const quote = await this.getBestQuote({
+      pair,
+      amountIn: 0.1,
+    });
+
+    return quote.bestQuote.price;
+  }
 }

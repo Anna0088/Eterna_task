@@ -114,6 +114,30 @@ export class OrderRepository {
   }
 
   /**
+   * Find active limit orders waiting for price
+   */
+  async findActiveLimitOrders(): Promise<Order[]> {
+    const orders = await OrderModel.find({
+      status: OrderStatus.WAITING_FOR_PRICE,
+    }).sort({ createdAt: -1 });
+
+    return orders.map((o) => this.toOrder(o));
+  }
+
+  /**
+   * Find expired limit orders
+   */
+  async findExpiredLimitOrders(): Promise<Order[]> {
+    const now = new Date();
+    const orders = await OrderModel.find({
+      status: OrderStatus.WAITING_FOR_PRICE,
+      expiresAt: { $lte: now },
+    }).sort({ expiresAt: 1 });
+
+    return orders.map((o) => this.toOrder(o));
+  }
+
+  /**
    * Delete order by ID (for testing)
    */
   async delete(id: string): Promise<boolean> {
@@ -132,6 +156,8 @@ export class OrderRepository {
       amount: doc.amount,
       slippage: doc.slippage,
       status: doc.status,
+      limitPrice: doc.limitPrice,
+      expiresAt: doc.expiresAt,
       dexUsed: doc.dexUsed,
       executionPrice: doc.executionPrice,
       txHash: doc.txHash,

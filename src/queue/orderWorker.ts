@@ -3,6 +3,7 @@ import { createRedisConnection } from '../config/redis';
 import { config } from '../config';
 import { OrderService } from '../services/OrderService';
 import { OrderJobData } from './orderQueue';
+import { OrderType } from '../types';
 
 const orderService = new OrderService();
 
@@ -12,21 +13,37 @@ export const orderWorker = new Worker<OrderJobData>(
   async (job: Job<OrderJobData>) => {
     const { orderId, order } = job.data;
 
-    console.log(`\n🔨 Processing order ${orderId} (${order.pair}) - Attempt ${job.attemptsMade + 1}`);
+    console.log(`\n🔨 Processing ${order.type} order ${orderId} (${order.pair}) - Attempt ${job.attemptsMade + 1}`);
 
     try {
-      // Process the order
-      const result = await orderService.processOrder(orderId);
+      // Route based on order type
+      if (order.type === OrderType.LIMIT) {
+        // LIMIT orders are already in WAITING_FOR_PRICE status
+        // They will be monitored by PriceMonitorService
+        // This job just confirms the order was created
+        console.log(`📊 LIMIT order ${orderId} registered for price monitoring (target: ${order.limitPrice})`);
 
-      // Update job progress
-      await job.updateProgress(100);
+        await job.updateProgress(100);
 
-      return {
-        orderId,
-        status: result.status,
-        txHash: result.txHash,
-        dexUsed: result.dexUsed,
-      };
+        return {
+          orderId,
+          status: order.status,
+          message: 'LIMIT order registered for price monitoring',
+        };
+      } else {
+        // MARKET orders (and other types) - process immediately
+        const result = await orderService.processOrder(orderId);
+
+        // Update job progress
+        await job.updateProgress(100);
+
+        return {
+          orderId,
+          status: result.status,
+          txHash: result.txHash,
+          dexUsed: result.dexUsed,
+        };
+      }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       console.error(`❌ Worker error for order ${orderId}:`, errorMessage);
@@ -88,7 +105,11 @@ export const startWorker = async () => {
   console.log(`   Rate limit: ${config.orderProcessing.ordersPerMinute} orders/minute`);
   console.log(`   Max retries: ${config.orderProcessing.maxRetryAttempts} attempts`);
 
-  await orderWorker.run();
+  // Don't await - let it run in background
+  orderWorker.run();
+
+  // Wait a bit for the worker to initialize
+  await new Promise(resolve => setTimeout(resolve, 100));
 };
 
 // Stop the worker
