@@ -1,0 +1,35 @@
+import Redis from 'ioredis';
+import { config } from './index';
+
+export const createRedisConnection = (): Redis => {
+  const redis = new Redis({
+    host: config.redis.host,
+    port: config.redis.port,
+    password: config.redis.password,
+    maxRetriesPerRequest: null, // Required for BullMQ
+    retryStrategy(times) {
+      const delay = Math.min(times * 50, 2000);
+      return delay;
+    },
+  });
+
+  redis.on('connect', () => {
+    console.log('✅ Redis connected successfully');
+  });
+
+  redis.on('error', (error) => {
+    console.error('❌ Redis connection error:', error);
+  });
+
+  redis.on('close', () => {
+    console.log('Redis connection closed');
+  });
+
+  return redis;
+};
+
+// Graceful shutdown
+process.on('SIGINT', async () => {
+  console.log('Closing Redis connections...');
+  process.exit(0);
+});
