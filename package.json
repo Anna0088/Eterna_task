@@ -1,8 +1,12 @@
 {
   "name": "dex-order-engine",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "DEX Order Execution Engine with Multi-DEX Routing and Real-time WebSocket Updates",
+  "main": "dist/server.js",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
   "scripts": {
     "dev": "nodemon --watch src --exec tsx src/server.ts",
     "build": "tsc",
