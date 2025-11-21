@@ -2,6 +2,14 @@
 
 A high-performance, production-ready order execution engine for decentralized exchanges (DEX) with real-time WebSocket updates, intelligent routing, and concurrent order processing.
 
+## 🔗 Quick Links
+
+- **Live Demo:** [https://your-app.railway.app](https://your-app.railway.app) _(Update after deployment)_
+- **Video Demo:** [YouTube Demo](https://youtube.com/watch?v=YOUR_VIDEO_ID) _(Update after recording)_
+- **API Documentation:** [docs/API.md](docs/API.md)
+- **Postman Collection:** [postman/DEX_Order_Engine.postman_collection.json](postman/DEX_Order_Engine.postman_collection.json)
+- **Deployment Guide:** [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)
+
 ## Features
 
 - **Multi-DEX Routing**: Intelligent routing across Raydium and Meteora DEXs
@@ -10,7 +18,8 @@ A high-performance, production-ready order execution engine for decentralized ex
 - **Multiple Trading Pairs**: BTC/USDT, ETH/USDT, BTC/ETH
 - **Robust Error Handling**: Custom error classes with graceful degradation
 - **Queue Management**: BullMQ with Redis for reliable job processing
-- **Comprehensive Testing**: 69+ tests with Jest
+- **Comprehensive Testing**: 59+ tests with Jest
+- **Professional Documentation**: Complete API docs, setup guides, and test scripts
 
 ## Architecture
 
