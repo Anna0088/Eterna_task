@@ -1,10 +1,14 @@
 import { buildApp } from './app';
 import { config, connectDatabase } from './config';
+import { startWorker } from './queue';
 
 const start = async () => {
   try {
     // Connect to MongoDB
     await connectDatabase();
+
+    // Start the order worker
+    await startWorker();
 
     // Build and start the app
     const app = await buildApp();

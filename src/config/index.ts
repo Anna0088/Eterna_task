@@ -32,3 +32,4 @@ export const config = {
 };
 
 export * from './database';
+export * from './redis';
